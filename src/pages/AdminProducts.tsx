@@ -4,6 +4,12 @@ import api from '@/lib/axios';
 import axios from 'axios';
 import { Plus, Edit, Trash2, ChevronLeft, ChevronRight, Package, X, Save, Info, Settings, Database, Image as ImageIcon, Activity, Search, Filter, ArrowUpDown, Upload, Loader2 } from 'lucide-react';
 
+interface IVariant {
+  size?: string;
+  color?: string;
+  stock: number;
+}
+
 interface IProduct {
   _id: string;
   name: string;
@@ -22,6 +28,7 @@ interface IProduct {
   };
   mainImage: string;
   gallery: string[];
+  variants: IVariant[];
   isFeatured: boolean;
   isFocus: boolean;
   isActive: boolean;
@@ -30,6 +37,7 @@ interface IProduct {
 
 const CLOTHES_SIZES = ['S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', 'Free Size'];
 const CLOTHES_COLORS = ['Đen', 'Trắng', 'Đỏ', 'Xanh Dương', 'Xanh Lá', 'Vàng', 'Xám', 'Tím', 'Hồng', 'Cam', 'Nâu', 'Navy', 'Cream', 'Beige'];
+const SHOE_SIZES = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45'];
 
 const AdminProducts: React.FC = () => {
   const navigate = useNavigate();
@@ -63,6 +71,7 @@ const AdminProducts: React.FC = () => {
       others: ''
     },
     mainImage: '', gallery: [''],
+    variants: [] as IVariant[],
     isFeatured: false, isFocus: false, isActive: true
   };
 
@@ -149,6 +158,7 @@ const AdminProducts: React.FC = () => {
       ...initialFormState,
       ...product,
       gallery: product.gallery && product.gallery.length > 0 ? product.gallery : [''],
+      variants: product.variants || [],
       specifications: {
         ...initialFormState.specifications,
         ...product.specifications,
@@ -200,16 +210,44 @@ const AdminProducts: React.FC = () => {
     };
 
     try {
+      const cleanedVariants = formData.variants.filter(v => v.color?.trim() !== '' && v.size?.trim() !== '');
+      
+      const finalData = {
+        ...cleanedData,
+        variants: cleanedVariants
+      };
+
       if (method === 'put') {
-        await api.put(url, cleanedData);
+        await api.put(url, finalData);
       } else {
-        await api.post(url, cleanedData);
+        await api.post(url, finalData);
       }
       setIsModalOpen(false);
       fetchProducts();
     } catch (err: any) { 
       setFormError(err.response?.data?.message || 'Lỗi lưu sản phẩm'); 
     }
+  };
+
+  // Logic quản lý biến thể
+  const addVariant = () => {
+    setFormData({
+      ...formData,
+      variants: [...formData.variants, { size: '', color: '', stock: 0 }]
+    });
+  };
+
+  const removeVariant = (index: number) => {
+    setFormData({
+      ...formData,
+      variants: formData.variants.filter((_, i) => i !== index)
+    });
+  };
+
+  const updateVariant = (index: number, field: keyof IVariant, value: any) => {
+    const newVariants = [...formData.variants];
+    newVariants[index] = { ...newVariants[index], [field]: value };
+    setFormData({ ...formData, variants: newVariants });
   };
 
   return (
@@ -339,7 +377,7 @@ const AdminProducts: React.FC = () => {
             <div className="flex px-10 bg-white border-b overflow-x-auto no-scrollbar">
               {[
                 { id: 'basic', label: 'Thông tin chung', icon: Info },
-                { id: 'specs', label: 'Kỹ thuật', icon: Settings },
+                { id: 'specs', label: 'Kỹ thuật & Biến thể', icon: Settings },
                 { id: 'images', label: 'Hình ảnh', icon: ImageIcon },
                 { id: 'status', label: 'Hiển thị', icon: Activity },
               ].map(tab => (
@@ -363,51 +401,52 @@ const AdminProducts: React.FC = () => {
                         {categories.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
-                    <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Giá niêm yết</label><input type="number" required className="form-input-custom font-black text-red-600" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} /></div>
-                    <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Giá khuyến mãi</label><input type="number" className="form-input-custom font-black text-green-600" value={formData.salePrice} onChange={e => setFormData({...formData, salePrice: Number(e.target.value)})} /></div>
+                    <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Giá niêm yết</label><input type="text" required className="form-input-custom font-black text-red-600" value={formData.price === 0 ? '' : formData.price.toLocaleString('vi-VN')} onChange={e => { const val = e.target.value.replace(/\D/g, ''); setFormData({...formData, price: val === '' ? 0 : Number(val)}); }} placeholder="0" /></div>
+                    <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Giá khuyến mãi</label><input type="text" className="form-input-custom font-black text-green-600" value={formData.salePrice === 0 || !formData.salePrice ? '' : formData.salePrice.toLocaleString('vi-VN')} onChange={e => { const val = e.target.value.replace(/\D/g, ''); setFormData({...formData, salePrice: val === '' ? 0 : Number(val)}); }} placeholder="0" /></div>
                   </div>
                   <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Mô tả sản phẩm</label><textarea rows={6} required className="form-input-custom" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} /></div>
                 </div>
               )}
 
               {activeTab === 'specs' && (
-                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                  {formData.category === 'Cầu lông' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {[
-                        { label: 'Trọng lượng / Cán', key: 'weightGrip' }, { label: 'Độ cân bằng', key: 'balance' },
-                        { label: 'Mức căng tối đa', key: 'maxTension' }, { label: 'Độ dày khung', key: 'frameThickness' },
-                        { label: 'Đường kính đũa', key: 'shaftDiameter' }, { label: 'Vật liệu khung', key: 'frameMaterial' },
-                        { label: 'Vật liệu đũa', key: 'shaftMaterial' }, { label: 'Chiều dài', key: 'length' },
-                        { label: 'Màu sắc', key: 'color' }, { label: 'Xuất xứ', key: 'origin' },
-                      ].map(f => (
-                        <div key={f.key} className="space-y-2">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{f.label}</label>
-                          <input type="text" className="form-input-custom text-sm" value={(formData.specifications.badminton as any)?.[f.key] || ''} 
-                            onChange={e => setFormData({...formData, specifications: {...formData.specifications, badminton: { ...formData.specifications.badminton as any, [f.key]: e.target.value }}})} 
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ) : formData.category === 'Pickleball' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {[
-                        { label: 'Bề mặt', key: 'surface' }, { label: 'Cốt lõi', key: 'core' },
-                        { label: 'Bảo hành', key: 'warranty' }, { label: 'Hình dáng', key: 'shape' },
-                        { label: 'Dài (mm)', key: 'length' }, { label: 'Rộng (mm)', key: 'width' },
-                        { label: 'Loại tay cầm', key: 'handleType' }, { label: 'Dài tay cầm (mm)', key: 'handleLength' },
-                        { label: 'Chu vi tay cầm (mm)', key: 'handleCircumference' },
-                      ].map(f => (
-                        <div key={f.key} className="space-y-2">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{f.label}</label>
-                          <input type="text" className="form-input-custom text-sm" value={(formData.specifications.pickleball as any)?.[f.key] || ''} 
-                            onChange={e => setFormData({...formData, specifications: {...formData.specifications, pickleball: { ...formData.specifications.pickleball as any, [f.key]: e.target.value }}})} 
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ) : formData.category === 'Quần áo' ? (
-                    <div className="space-y-10">
+                <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
+                  {/* PHẦN 1: THÔNG SỐ KỸ THUẬT THEO DANH MỤC */}
+                  <div>
+                    {formData.category === 'Cầu lông' ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {[
+                          { label: 'Trọng lượng / Cán', key: 'weightGrip' }, { label: 'Độ cân bằng', key: 'balance' },
+                          { label: 'Mức căng tối đa', key: 'maxTension' }, { label: 'Độ dày khung', key: 'frameThickness' },
+                          { label: 'Đường kính đũa', key: 'shaftDiameter' }, { label: 'Vật liệu khung', key: 'frameMaterial' },
+                          { label: 'Vật liệu đũa', key: 'shaftMaterial' }, { label: 'Chiều dài', key: 'length' },
+                          { label: 'Màu sắc', key: 'color' }, { label: 'Xuất xứ', key: 'origin' },
+                        ].map(f => (
+                          <div key={f.key} className="space-y-2">
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{f.label}</label>
+                            <input type="text" className="form-input-custom text-sm" value={(formData.specifications.badminton as any)?.[f.key] || ''} 
+                              onChange={e => setFormData({...formData, specifications: {...formData.specifications, badminton: { ...formData.specifications.badminton as any, [f.key]: e.target.value }}})} 
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : formData.category === 'Pickleball' ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {[
+                          { label: 'Bề mặt', key: 'surface' }, { label: 'Cốt lõi', key: 'core' },
+                          { label: 'Bảo hành', key: 'warranty' }, { label: 'Hình dáng', key: 'shape' },
+                          { label: 'Dài (mm)', key: 'length' }, { label: 'Rộng (mm)', key: 'width' },
+                          { label: 'Loại tay cầm', key: 'handleType' }, { label: 'Dài tay cầm (mm)', key: 'handleLength' },
+                          { label: 'Chu vi tay cầm (mm)', key: 'handleCircumference' },
+                        ].map(f => (
+                          <div key={f.key} className="space-y-2">
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{f.label}</label>
+                            <input type="text" className="form-input-custom text-sm" value={(formData.specifications.pickleball as any)?.[f.key] || ''} 
+                              onChange={e => setFormData({...formData, specifications: {...formData.specifications, pickleball: { ...formData.specifications.pickleball as any, [f.key]: e.target.value }}})} 
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : formData.category === 'Quần áo' ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-2">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Chất liệu</label>
@@ -424,93 +463,147 @@ const AdminProducts: React.FC = () => {
                           />
                         </div>
                       </div>
-
-                      <div className="space-y-6">
-                        <div className="space-y-4">
-                          <label className="text-[10px] font-black text-red-600 uppercase tracking-[0.2em]">Kích thước (Sizes)</label>
-                          <div className="flex flex-wrap gap-3">
-                            {CLOTHES_SIZES.map(size => {
-                              const isSelected = formData.specifications.clothes?.sizes?.includes(size);
-                              return (
-                                <button
-                                  key={size}
-                                  type="button"
-                                  onClick={() => {
-                                    const currentSizes = formData.specifications.clothes?.sizes || [];
-                                    const newSizes = isSelected 
-                                      ? currentSizes.filter((s: string) => s !== size)
-                                      : [...currentSizes, size];
-                                    setFormData({
-                                      ...formData, 
-                                      specifications: {
-                                        ...formData.specifications, 
-                                        clothes: { ...formData.specifications.clothes, sizes: newSizes }
-                                      }
-                                    });
-                                  }}
-                                  className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${isSelected ? 'bg-red-600 border-red-600 text-white shadow-lg shadow-red-100' : 'bg-white border-gray-100 text-gray-400 hover:border-red-200'}`}
-                                >
-                                  {size}
-                                </button>
-                              );
-                            })}
+                    ) : formData.category === 'Giày Thể Thao' ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {[
+                          { label: 'Xuất xứ', key: 'origin' },
+                          { label: 'Công nghệ', key: 'technology' }, { label: 'Chất liệu đế', key: 'soleMaterial' },
+                          { label: 'Chất liệu thân giày', key: 'upperMaterial' },
+                        ].map(f => (
+                          <div key={f.key} className="space-y-2">
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{f.label}</label>
+                            <input type="text" className="form-input-custom text-sm" value={(formData.specifications.shoes as any)?.[f.key] || ''} 
+                              onChange={e => setFormData({...formData, specifications: {...formData.specifications, shoes: { ...formData.specifications.shoes as any, [f.key]: e.target.value }}})} 
+                            />
                           </div>
-                        </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-20 bg-zinc-50 rounded-[3rem] border-2 border-dashed border-zinc-100">
+                        <Package size={32} className="text-zinc-200 mb-4" />
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Thông số kỹ thuật mặc định</h4>
+                      </div>
+                    )}
+                  </div>
 
-                        <div className="space-y-4 pt-6 border-t border-gray-100">
-                          <label className="text-[10px] font-black text-red-600 uppercase tracking-[0.2em]">Màu sắc (Colors)</label>
-                          <div className="flex flex-wrap gap-3">
-                            {CLOTHES_COLORS.map(color => {
-                              const isSelected = formData.specifications.clothes?.colors?.includes(color);
-                              return (
-                                <button
-                                  key={color}
-                                  type="button"
-                                  onClick={() => {
-                                    const currentColors = formData.specifications.clothes?.colors || [];
-                                    const newColors = isSelected 
-                                      ? currentColors.filter((c: string) => c !== color)
-                                      : [...currentColors, color];
-                                    setFormData({
-                                      ...formData, 
-                                      specifications: {
-                                        ...formData.specifications, 
-                                        clothes: { ...formData.specifications.clothes, colors: newColors }
-                                      }
-                                    });
+                  {/* PHẦN 2: QUẢN LÝ BIẾN THỂ (CHỈ CHO GIÀY & QUẦN ÁO) */}
+                  {(formData.category === 'Giày Thể Thao' || formData.category === 'Quần áo') && (
+                    <div className="pt-12 border-t border-gray-100 space-y-10">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h4 className="text-sm font-black uppercase tracking-widest text-red-600">Phân loại hàng (Màu & Size)</h4>
+                          <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-widest">Tạo nhóm Màu sắc và chọn các Size tương ứng</p>
+                        </div>
+                        <button 
+                          type="button" 
+                          onClick={() => {
+                            // Logic: Thêm một biến thể mẫu để người dùng bắt đầu nhập
+                            setFormData({ ...formData, variants: [...formData.variants, { color: '', size: '', stock: 0 }] });
+                          }}
+                          className="bg-black text-white px-6 py-3 rounded-xl flex items-center transition-all shadow-lg font-black uppercase tracking-widest text-[10px]"
+                        >
+                          <Plus className="w-4 h-4 mr-2" /> Thêm nhóm màu mới
+                        </button>
+                      </div>
+
+                      <div className="space-y-8">
+                        {/* Grouping variants by color for UI */}
+                        {Object.entries(
+                          formData.variants.reduce((acc, v) => {
+                            const color = v.color || '';
+                            if (!acc[color]) acc[color] = [];
+                            acc[color].push(v);
+                            return acc;
+                          }, {} as Record<string, IVariant[]>)
+                        ).map(([colorName, colorVariants], colorIdx) => (
+                          <div key={colorIdx} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-6 relative overflow-hidden group">
+                            <div className="absolute top-0 left-0 w-2 h-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            
+                            <div className="flex justify-between items-center">
+                              <div className="flex-1 max-w-md">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Tên màu sắc</label>
+                                <input 
+                                  type="text" 
+                                  className="form-input-custom !py-3 !text-xs font-black" 
+                                  value={colorName} 
+                                  onChange={e => {
+                                    const newColor = e.target.value;
+                                    const newVariants = formData.variants.map(v => v.color === colorName ? { ...v, color: newColor } : v);
+                                    setFormData({ ...formData, variants: newVariants });
                                   }}
-                                  className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${isSelected ? 'bg-black border-black text-white shadow-lg shadow-gray-200' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
-                                >
-                                  {color}
-                                </button>
-                              );
-                            })}
+                                  placeholder="VD: Trắng - Xanh Ngọc"
+                                />
+                              </div>
+                              <button 
+                                type="button" 
+                                onClick={() => {
+                                  const newVariants = formData.variants.filter(v => v.color !== colorName);
+                                  setFormData({ ...formData, variants: newVariants });
+                                }}
+                                className="p-3 text-gray-300 hover:text-red-600 transition-all"
+                              >
+                                <Trash2 size={18} />
+                              </button>
+                            </div>
+
+                            <div className="space-y-4">
+                              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Chọn kích thước (Size)</label>
+                              <div className="flex flex-wrap gap-2">
+                                {(formData.category === 'Giày Thể Thao' ? SHOE_SIZES : CLOTHES_SIZES).map(size => {
+                                  const isSelected = colorVariants.some(v => v.size === size);
+                                  return (
+                                    <button
+                                      key={size}
+                                      type="button"
+                                      onClick={() => {
+                                        if (isSelected) {
+                                          const newVariants = formData.variants.filter(v => !(v.color === colorName && v.size === size));
+                                          setFormData({ ...formData, variants: newVariants });
+                                        } else {
+                                          setFormData({ ...formData, variants: [...formData.variants, { color: colorName, size, stock: 0 }] });
+                                        }
+                                      }}
+                                      className={`px-4 py-2 rounded-lg text-[10px] font-black transition-all border-2 ${isSelected ? 'bg-red-600 border-red-600 text-white shadow-md' : 'bg-gray-50 border-transparent text-gray-400 hover:border-gray-200'}`}
+                                    >
+                                      {size}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {colorVariants.filter(v => v.size && v.size.trim() !== '').length > 0 && (
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-50">
+                                {colorVariants.filter(v => v.size && v.size.trim() !== '').map((v, vIdx) => (
+                                  <div key={vIdx} className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Kho (Size {v.size})</label>
+                                    <input 
+                                      type="number" 
+                                      className="form-input-custom !py-2 !text-xs font-black text-blue-600" 
+                                      value={v.stock} 
+                                      onChange={e => {
+                                        const newVariants = formData.variants.map(item => (item.color === colorName && item.size === v.size) ? { ...item, stock: Number(e.target.value) } : item);
+                                        setFormData({ ...formData, variants: newVariants });
+                                      }}
+                                      min="0"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
-                        </div>
+                        ))}
                       </div>
-                    </div>
-                  ) : formData.category === 'Giày Thể Thao' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {[
-                        { label: 'Màu sắc', key: 'color' }, { label: 'Xuất xứ', key: 'origin' },
-                        { label: 'Công nghệ', key: 'technology' }, { label: 'Chất liệu đế', key: 'soleMaterial' },
-                        { label: 'Chất liệu thân giày', key: 'upperMaterial' },
-                      ].map(f => (
-                        <div key={f.key} className="space-y-2">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{f.label}</label>
-                          <input type="text" className="form-input-custom text-sm" value={(formData.specifications.shoes as any)?.[f.key] || ''} 
-                            onChange={e => setFormData({...formData, specifications: {...formData.specifications, shoes: { ...formData.specifications.shoes as any, [f.key]: e.target.value }}})} 
-                          />
+
+                      {formData.variants.length > 0 && (
+                        <div className="p-8 bg-red-50 rounded-[2rem] border border-red-100 flex justify-between items-center shadow-inner">
+                          <div className="flex items-center">
+                            <Database size={20} className="text-red-600 mr-3" />
+                            <span className="text-[10px] font-black text-red-800 uppercase tracking-widest">Tổng số lượng tồn kho:</span>
+                          </div>
+                          <span className="text-2xl font-black text-red-600">{formData.variants.reduce((acc, v) => acc + (v.stock || 0), 0)}</span>
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-32 bg-zinc-50 rounded-[3rem] border-2 border-dashed border-zinc-100 animate-in fade-in zoom-in duration-500">
-                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
-                        <Package size={40} className="text-zinc-200" />
-                      </div>
-                      <h4 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">Thông số kỹ thuật</h4>
-                      <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest mt-2">Danh mục này không yêu cầu thông số kỹ thuật đặc thù</p>
+                      )}
                     </div>
                   )}
                 </div>

@@ -9,6 +9,12 @@ import { useCart } from '@/context/CartContext';
 import CONFIG from '@/lib/config';
 import infographic from '@/assets/inforgraphic.png';
 
+interface IVariant {
+  size?: string;
+  color?: string;
+  stock: number;
+}
+
 interface IProduct {
   _id: string;
   name: string;
@@ -21,6 +27,7 @@ interface IProduct {
   mainImage: string;
   gallery: string[];
   specifications: any;
+  variants: IVariant[];
   slug: string;
 }
 
@@ -40,6 +47,19 @@ const ProductDetail: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Nhóm biến thể theo màu sắc
+  const variantsByColor = React.useMemo(() => {
+    if (!product || !product.variants) return {};
+    return product.variants.reduce((acc, v) => {
+      const color = v.color || 'default';
+      if (!acc[color]) acc[color] = [];
+      acc[color].push(v);
+      return acc;
+    }, {} as Record<string, IVariant[]>);
+  }, [product]);
+
+  const availableColors = Object.keys(variantsByColor);
+
   useEffect(() => {
     const fetchProductData = async () => {
       setLoading(true);
@@ -48,10 +68,15 @@ const ProductDetail: React.FC = () => {
         setProduct(data);
         setActiveImg(data.mainImage);
         
-        // Auto-select first options if available for clothes
-        if (data.category === 'Quần áo' && data.specifications?.clothes) {
-          if (data.specifications.clothes.sizes?.length > 0) setSelectedSize(data.specifications.clothes.sizes[0]);
-          if (data.specifications.clothes.colors?.length > 0) setSelectedColor(data.specifications.clothes.colors[0]);
+        // Tự động chọn màu đầu tiên nếu có biến thể
+        const colors = Object.keys(data.variants?.reduce((acc: any, v: any) => {
+          const color = v.color || 'default';
+          if (!acc[color]) acc[color] = true;
+          return acc;
+        }, {}) || {});
+
+        if (colors.length > 0 && colors[0] !== 'default') {
+          setSelectedColor(colors[0]);
         }
       } catch (error) {
         console.error('Lỗi tải dữ liệu:', error);
@@ -68,14 +93,20 @@ const ProductDetail: React.FC = () => {
 
   const discountPercentage = product.salePrice ? Math.round(((product.price - product.salePrice) / product.price) * 100) : 0;
 
+  // Lấy danh sách size khả dụng cho màu đã chọn
+  const availableSizes = selectedColor 
+    ? (variantsByColor[selectedColor] || [])
+    : (variantsByColor['default'] || []);
+
   const handleAddToCart = () => {
-    if (product.category === 'Quần áo') {
-      if (product.specifications?.clothes?.sizes?.length > 0 && !selectedSize) {
-        alert('Vui lòng chọn kích thước!');
+    // Kiểm tra nếu sản phẩm có biến thể thì bắt buộc phải chọn
+    if (product.variants && product.variants.length > 0) {
+      if (availableColors.length > 0 && availableColors[0] !== 'default' && !selectedColor) {
+        alert('Vui lòng chọn màu sắc!');
         return;
       }
-      if (product.specifications?.clothes?.colors?.length > 0 && !selectedColor) {
-        alert('Vui lòng chọn màu sắc!');
+      if (availableSizes.length > 0 && !selectedSize) {
+        alert('Vui lòng chọn kích thước (Size)!');
         return;
       }
     }
@@ -88,7 +119,7 @@ const ProductDetail: React.FC = () => {
       category: product.category,
       slug: product.slug,
       selectedSize,
-      selectedColor
+      selectedColor: selectedColor === 'default' ? '' : selectedColor
     }, quantity);
     alert('Đã thêm sản phẩm vào giỏ hàng!');
   };
@@ -157,41 +188,66 @@ const ProductDetail: React.FC = () => {
               </div>
 
               <div className="space-y-6">
-                {product.category === 'Quần áo' && product.specifications?.clothes && (
-                  <div className="space-y-6 py-6 border-b border-gray-50">
-                    {product.specifications.clothes.sizes?.length > 0 && (
+                {/* PHẦN CHỌN BIẾN THỂ (MÀU & SIZE) */}
+                {product.variants && product.variants.length > 0 && (
+                  <div className="space-y-8 py-6 border-y border-gray-50">
+                    {/* 1. Chọn màu sắc */}
+                    {availableColors.length > 0 && availableColors[0] !== 'default' && (
                       <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                          <span className="text-xs font-black uppercase tracking-widest text-gray-400">Kích thước: <span className="text-gray-900">{selectedSize}</span></span>
-                          <button className="text-[10px] font-bold text-red-600 uppercase underline underline-offset-4">Hướng dẫn chọn size</button>
+                          <span className="text-xs font-black uppercase tracking-widest text-gray-400">
+                            Màu sắc: <span className="text-gray-900">{selectedColor}</span>
+                          </span>
                         </div>
                         <div className="flex flex-wrap gap-3">
-                          {product.specifications.clothes.sizes.map((size: string) => (
+                          {availableColors.map(color => (
                             <button
-                              key={size}
-                              onClick={() => setSelectedSize(size)}
-                              className={`w-14 h-12 rounded-xl flex items-center justify-center text-xs font-black transition-all border-2 ${selectedSize === size ? 'bg-black border-black text-white shadow-xl scale-110' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
+                              key={color}
+                              onClick={() => {
+                                setSelectedColor(color);
+                                setSelectedSize(''); // Reset size khi đổi màu
+                              }}
+                              className={`px-6 py-3 rounded-xl flex items-center justify-center text-[10px] font-black uppercase tracking-widest transition-all border-2 ${selectedColor === color ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
                             >
-                              {size}
+                              {color}
                             </button>
                           ))}
                         </div>
                       </div>
                     )}
 
-                    {product.specifications.clothes.colors?.length > 0 && (
+                    {/* 2. Chọn kích thước (Hiện sau khi đã có màu hoặc nếu chỉ có size) */}
+                    {availableSizes.length > 0 && (
                       <div className="space-y-4">
-                        <span className="text-xs font-black uppercase tracking-widest text-gray-400">Màu sắc: <span className="text-gray-900">{selectedColor}</span></span>
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs font-black uppercase tracking-widest text-gray-400">
+                            Kích thước: <span className="text-gray-900">{selectedSize}</span>
+                          </span>
+                          {(product.category === 'Quần áo' || product.category === 'Giày Thể Thao') && (
+                            <button className="text-[10px] font-bold text-red-600 uppercase underline underline-offset-4">Bảng quy đổi size</button>
+                          )}
+                        </div>
                         <div className="flex flex-wrap gap-3">
-                          {product.specifications.clothes.colors.map((color: string) => (
-                            <button
-                              key={color}
-                              onClick={() => setSelectedColor(color)}
-                              className={`px-6 py-3 rounded-xl flex items-center justify-center text-[10px] font-black uppercase tracking-widest transition-all border-2 ${selectedColor === color ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
-                            >
-                              {color}
-                            </button>
-                          ))}
+                          {availableSizes.map((v, idx) => {
+                            const isOutOfStock = v.stock <= 0;
+                            return (
+                              <button
+                                key={idx}
+                                disabled={isOutOfStock}
+                                onClick={() => setSelectedSize(v.size || '')}
+                                className={`min-w-[3.5rem] h-12 rounded-xl flex flex-col items-center justify-center transition-all border-2 relative overflow-hidden ${
+                                  selectedSize === v.size 
+                                    ? 'bg-black border-black text-white shadow-xl scale-110 z-10' 
+                                    : isOutOfStock 
+                                      ? 'bg-gray-50 border-gray-100 text-gray-200 cursor-not-allowed' 
+                                      : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
+                                }`}
+                              >
+                                <span className="text-xs font-black">{v.size}</span>
+                                {isOutOfStock && <div className="absolute inset-0 flex items-center justify-center bg-white/60"><div className="w-full h-[2px] bg-gray-300 rotate-45" /></div>}
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
