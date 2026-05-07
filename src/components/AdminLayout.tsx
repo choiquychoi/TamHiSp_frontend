@@ -7,7 +7,8 @@ import {
   LogOut, 
   ChevronRight, 
   Newspaper, 
-  ShoppingBag 
+  ShoppingBag,
+  Image as ImageIcon
 } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
@@ -26,6 +27,7 @@ const AdminLayout: React.FC = () => {
     { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/admin/products', label: 'Quản lý Sản phẩm', icon: Package },
     { path: '/admin/orders', label: 'Quản lý Đơn hàng', icon: ShoppingBag },
+    { path: '/admin/banners', label: 'Quản lý Banner', icon: ImageIcon },
     { path: '/admin/news', label: 'Quản lý Tin tức', icon: Newspaper },
     { path: '/admin/contact', label: 'Thông tin & SEO', icon: Headphones },
   ];

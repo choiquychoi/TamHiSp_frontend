@@ -233,18 +233,14 @@ const ProductDetail: React.FC = () => {
                             return (
                               <button
                                 key={idx}
-                                disabled={isOutOfStock}
                                 onClick={() => setSelectedSize(v.size || '')}
                                 className={`min-w-[3.5rem] h-12 rounded-xl flex flex-col items-center justify-center transition-all border-2 relative overflow-hidden ${
                                   selectedSize === v.size 
                                     ? 'bg-black border-black text-white shadow-xl scale-110 z-10' 
-                                    : isOutOfStock 
-                                      ? 'bg-gray-50 border-gray-100 text-gray-200 cursor-not-allowed' 
-                                      : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
+                                    : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
                                 }`}
                               >
                                 <span className="text-xs font-black">{v.size}</span>
-                                {isOutOfStock && <div className="absolute inset-0 flex items-center justify-center bg-white/60"><div className="w-full h-[2px] bg-gray-300 rotate-45" /></div>}
                               </button>
                             );
                           })}

@@ -18,6 +18,7 @@ import Checkout from './pages/Checkout';
 import OrderTracking from './pages/OrderTracking';
 import { CartProvider } from './context/CartContext';
 import QuickContact from './components/QuickContact';
+import AdminBanners from './pages/AdminBanners';
 
 // Component bảo vệ Route Admin
 
@@ -62,8 +63,8 @@ const App: React.FC = () => {
             <Route path="orders" element={<AdminOrders />} />
             <Route path="contact" element={<AdminContact />} />
             <Route path="news" element={<AdminNews />} />
-          </Route>
-        </Routes>
+            <Route path="banners" element={<AdminBanners />} />
+            </Route>        </Routes>
         
         {/* Chỉ hiển thị QuickContact ở trang người dùng, không hiện ở Admin */}
         {!window.location.pathname.startsWith('/admin') && <QuickContact />}

@@ -1,34 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import hero_banner from '@/assets/hero_banner.jpg';
+import api from '@/lib/axios';
 
 const HeroBanner = () => {
-  const slides = [
+  const [banners, setBanners] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const { data } = await api.get('/banners');
+        setBanners(data);
+      } catch (error) {
+        console.error('Lỗi khi tải banners:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBanners();
+  }, []);
+
+  const defaultSlides = [
     {
-      id: 1,
+      _id: 'default1',
       image: hero_banner,
       title: 'CHINH PHỤC ĐỈNH CAO',
       subtitle: 'Trang bị ngay những siêu phẩm cầu lông mới nhất 2026',
       buttonText: 'MUA NGAY',
-    },
-    {
-      id: 2,
-      image: 'https://joola.com.vn/images/1539/thumbs/joola-vision-1920x850xcrop.webp?1920',
-      title: 'KỶ NGUYÊN PICKLEBALL',
-      subtitle: 'Đẳng cấp và tốc độ với bộ sưu tập của Tâm Hí Sports',
-      buttonText: 'KHÁM PHÁ',
-    },
-    {
-      id: 3,
-      image: 'https://tuanhanhsports.vn/wp-content/uploads/2016/03/slider-1-1371x533.jpg',
-      title: 'BƯỚC CHÂN THẦN TỐC',
-      subtitle: 'Êm ái và bám sân tuyệt đối với Yonex Power Cushion',
-      buttonText: 'XEM CHI TIẾT',
+      link: '/'
     }
   ];
+
+  const slides = banners.length > 0 ? banners : defaultSlides;
+
+  if (loading && banners.length === 0) return <div className="h-screen w-full bg-zinc-900 animate-pulse flex items-center justify-center text-white font-black uppercase tracking-[0.5em]">Loading Hero...</div>;
 
   return (
     <section className="h-screen w-full relative overflow-hidden">
@@ -47,11 +56,11 @@ const HeroBanner = () => {
           }
         }}
         autoplay={{ delay: 6000, disableOnInteraction: false }}
-        loop={true}
+        loop={slides.length > 1}
         className="w-full h-full [&_.swiper-button-next]:!text-white [&_.swiper-button-prev]:!text-white [&_.swiper-button-next]:after:!text-2xl [&_.swiper-button-prev]:after:!text-2xl"
       >
         {slides.map((slide) => (
-          <SwiperSlide key={slide.id}>
+          <SwiperSlide key={slide._id}>
             {({ isActive }) => (
               <div className="w-full h-full relative flex items-center bg-zinc-900">
                 {/* Background Image with Overlay */}
@@ -82,18 +91,6 @@ const HeroBanner = () => {
                     >
                       {slide.subtitle}
                     </motion.p>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                      transition={{ duration: 0.8, delay: 0.6 }}
-                    >
-                      <Button 
-                        size="lg" 
-                        className="bg-destructive hover:bg-destructive/90 text-white font-black text-base px-10 py-7 uppercase tracking-[2px] transition-all hover:translate-y-[-4px] hover:shadow-[0_10px_20px_rgba(212,0,0,0.4)]"
-                      >
-                        {slide.buttonText}
-                      </Button>
-                    </motion.div>
                   </div>
                 </div>
               </div>
