@@ -57,14 +57,14 @@ const FocusProduct = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative h-[300px] sm:h-[400px] lg:h-auto overflow-hidden group"
+          className="relative h-[400px] sm:h-[500px] lg:h-auto overflow-hidden group bg-zinc-950 flex items-center justify-center p-4 md:p-10"
         >
           <img 
             src={product.image} 
             alt={product.name} 
-            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+            className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-105 drop-shadow-[0_20px_50px_rgba(220,38,38,0.3)]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-950/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-950/20 pointer-events-none" />
         </motion.div>
 
         {/* Text Side */}
@@ -111,13 +111,6 @@ const FocusProduct = () => {
                 </motion.div>
               ))}
             </div>
-
-            <Button 
-              size="lg" 
-              className="w-full sm:w-auto h-14 md:h-16 px-10 md:px-12 text-sm md:text-base font-black uppercase tracking-widest bg-white text-black hover:bg-destructive hover:text-white transition-all rounded-none border-none shadow-xl"
-            >
-              Khám phá chi tiết
-            </Button>
           </motion.div>
         </div>
       </div>

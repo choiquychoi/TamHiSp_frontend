@@ -105,3 +105,11 @@
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

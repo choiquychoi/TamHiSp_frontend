@@ -55,7 +55,7 @@ const NewsSection = () => {
           <div className="h-1.5 w-24 bg-destructive mx-auto" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex overflow-x-auto pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 no-scrollbar snap-x snap-mandatory px-4 md:px-0 -mx-4 md:mx-0">
           {news.map((item, index) => (
             <motion.div
               key={item._id}
@@ -63,9 +63,10 @@ const NewsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="w-[280px] md:w-full shrink-0 snap-center"
             >
-              <Card className="group h-full overflow-hidden border-none shadow-md hover:shadow-2xl transition-all duration-500">
-                <CardHeader className="p-0 overflow-hidden aspect-video">
+              <Card className="group h-full overflow-hidden border-none shadow-md hover:shadow-2xl transition-all duration-500 rounded-[2rem]">
+                <CardHeader className="p-0 overflow-hidden aspect-[4/3] md:aspect-video cursor-pointer">
                   <img 
                     src={item.thumbnail || 'https://images.unsplash.com/photo-1626224580175-66094142ce3a?q=80&w=600&auto=format&fit=crop'} 
                     alt={item.title} 
@@ -73,20 +74,20 @@ const NewsSection = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                   />
                 </CardHeader>
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm font-bold mb-4">
-                    <Calendar className="h-4 w-4 text-destructive" />
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-muted-foreground text-[10px] md:text-sm font-bold mb-3 md:mb-4">
+                    <Calendar className="h-3 w-3 md:h-4 md:w-4 text-destructive" />
                     {new Date(item.createdAt).toLocaleDateString('vi-VN')}
                   </div>
-                  <h3 onClick={() => window.location.href = `/news/${item.slug}`} className="text-xl font-black mb-4 group-hover:text-destructive transition-colors line-clamp-2 uppercase leading-tight">
+                  <h3 onClick={() => window.location.href = `/news/${item.slug}`} className="text-lg md:text-xl font-black mb-3 md:mb-4 group-hover:text-destructive transition-colors line-clamp-2 uppercase leading-tight cursor-pointer">
                     {item.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-6 line-clamp-3">
+                  <p className="text-xs md:text-base text-muted-foreground leading-relaxed mb-4 md:mb-6 line-clamp-3">
                     {item.summary}
                   </p>
                   <Button 
                     variant="link" 
-                    className="p-0 h-auto font-black uppercase tracking-widest text-destructive hover:no-underline group-hover:translate-x-2 transition-transform"
+                    className="p-0 h-auto font-black uppercase tracking-widest text-[10px] md:text-xs text-destructive hover:no-underline group-hover:translate-x-2 transition-transform"
                     onClick={() => window.location.href = `/news/${item.slug}`}
                   >
                     Xem thêm →

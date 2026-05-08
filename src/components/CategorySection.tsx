@@ -52,8 +52,8 @@ const CategorySection = () => {
           <div className="h-1.5 w-24 bg-destructive mx-auto rounded-full" />
         </div>
         
-        {/* Dùng Flexbox justify-center để 5 món luôn nằm giữa */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+        {/* Danh sách danh mục với tính năng Horizontal Scroll trên Mobile */}
+        <div className="flex overflow-x-auto pb-12 md:pb-0 md:flex-wrap md:justify-center gap-4 md:gap-6 no-scrollbar snap-x snap-mandatory px-4 md:px-0 -mx-4 md:mx-0">
           {categories.map((cat, index) => (
             <motion.div 
               key={cat.id}
@@ -61,7 +61,7 @@ const CategorySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative h-[300px] md:h-[500px] w-full sm:w-[calc(50%-1rem)] lg:w-[calc(18%)] min-w-[160px] md:min-w-[240px] overflow-hidden rounded-[2rem] md:rounded-[2.5rem] shadow-2xl transition-all duration-500 hover:shadow-destructive/20 border border-white/10"
+              className="group relative h-[280px] md:h-[500px] w-[180px] sm:w-[calc(50%-1rem)] lg:w-[calc(18%)] shrink-0 snap-center overflow-hidden rounded-[2rem] md:rounded-[2.5rem] shadow-2xl transition-all duration-500 hover:shadow-destructive/20 border border-white/10"
             >
               <Link to={`/category/${cat.name}`} className="block w-full h-full">
                 {/* Background Image */}
@@ -74,7 +74,7 @@ const CategorySection = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/80 group-hover:via-black/30 transition-all duration-300" />
                 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-end text-center p-6 md:p-8 text-white transition-all duration-500 group-hover:pb-10 md:group-hover:pb-12">
+                <div className="absolute inset-0 flex flex-col items-center justify-end text-center p-6 md:p-8 text-white transition-all duration-500 md:group-hover:pb-12">
                   <h3 className="text-xl md:text-2xl font-black uppercase mb-1 md:mb-2 tracking-tighter drop-shadow-2xl">
                     {cat.displayName}
                   </h3>

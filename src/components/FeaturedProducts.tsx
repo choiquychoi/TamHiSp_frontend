@@ -64,9 +64,7 @@ const FeaturedProducts = () => {
               Sản Phẩm <span className="text-destructive">Nổi Bật</span>
             </h2>
           </div>
-          <Button variant="link" className="font-bold uppercase tracking-widest p-0 h-auto text-muted-foreground hover:text-destructive transition-colors text-[10px] md:text-xs">
-            Xem tất cả sản phẩm →
-          </Button>
+
         </div>
 
         <Swiper
