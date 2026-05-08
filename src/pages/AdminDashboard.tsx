@@ -216,10 +216,10 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="grid grid-cols-1 gap-10">
         
         {/* RECENT ORDERS */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="space-y-6">
           <div className="flex justify-between items-end px-2">
             <h3 className="text-xl font-black uppercase tracking-tighter italic flex items-center gap-2">
               <Clock className="text-red-600" size={20} /> Đơn hàng <span className="text-red-600">gần đây</span>
@@ -270,52 +270,6 @@ const AdminDashboard: React.FC = () => {
             </div>
           </Card>
         </div>
-
-        {/* LOW STOCK ALERTS */}
-        <div className="lg:col-span-5 space-y-6">
-          <h3 className="text-xl font-black uppercase tracking-tighter italic flex items-center gap-2 px-2">
-            <AlertTriangle className="text-red-600" size={20} /> Cảnh báo <span className="text-red-600">tồn kho</span>
-          </h3>
-
-          <div className="space-y-4">
-            {stats.lowStockProducts.length === 0 ? (
-              <Card className="border-none shadow-sm rounded-[2rem] bg-white p-10 text-center border-dashed border-2 border-gray-100">
-                <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest italic">Tất cả sản phẩm đều đủ hàng.</p>
-              </Card>
-            ) : (
-              stats.lowStockProducts.map((product) => (
-                <Card key={product._id} className="border-none shadow-sm hover:shadow-md transition-all rounded-[2rem] bg-white overflow-hidden group">
-                  <CardContent className="p-6">
-                    <div className="flex gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gray-50 p-2 shrink-0">
-                        <img src={product.mainImage} alt={product.name} className="w-full h-full object-contain" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-start">
-                          <h4 className="font-black uppercase tracking-tighter text-sm text-gray-950 truncate pr-4">{product.name}</h4>
-                          <Link to="/admin/products" className="text-gray-300 group-hover:text-red-600 transition-colors">
-                            <ArrowUpRight size={18} />
-                          </Link>
-                        </div>
-                        <div className="flex items-center gap-4 mt-2">
-                          <div className="flex items-center gap-1.5 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100">
-                            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Tồn kho: {product.totalStock}</span>
-                          </div>
-                          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest italic">{product.brand}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-
-          <Button asChild className="w-full h-14 bg-gray-950 hover:bg-red-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] shadow-xl transition-all">
-            <Link to="/admin/products">Đến quản lý sản phẩm</Link>
-          </Button>
-        </div>
-
       </div>
     </div>
   );

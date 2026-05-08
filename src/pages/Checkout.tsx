@@ -187,6 +187,9 @@ const Checkout = () => {
                         </div>
                         <div>
                           <p className="text-xs font-black uppercase tracking-tighter line-clamp-1">{item.name}</p>
+                          {item.variantLabel && (
+                            <p className="text-[9px] font-bold text-destructive uppercase tracking-widest">{item.variantLabel}</p>
+                          )}
                           <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{item.quantity} x {item.price.toLocaleString()}₫</p>
                         </div>
                       </div>

@@ -572,38 +572,10 @@ const AdminProducts: React.FC = () => {
                               </div>
                             </div>
 
-                            {colorVariants.filter(v => v.size && v.size.trim() !== '').length > 0 && (
-                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-50">
-                                {colorVariants.filter(v => v.size && v.size.trim() !== '').map((v, vIdx) => (
-                                  <div key={vIdx} className="space-y-2">
-                                    <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Kho (Size {v.size})</label>
-                                    <input 
-                                      type="number" 
-                                      className="form-input-custom !py-2 !text-xs font-black text-blue-600" 
-                                      value={v.stock} 
-                                      onChange={e => {
-                                        const newVariants = formData.variants.map(item => (item.color === colorName && item.size === v.size) ? { ...item, stock: Number(e.target.value) } : item);
-                                        setFormData({ ...formData, variants: newVariants });
-                                      }}
-                                      min="0"
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            )}
+                            {/* Đã xóa ô nhập Kho theo yêu cầu */}
                           </div>
                         ))}
                       </div>
-
-                      {formData.variants.length > 0 && (
-                        <div className="p-8 bg-red-50 rounded-[2rem] border border-red-100 flex justify-between items-center shadow-inner">
-                          <div className="flex items-center">
-                            <Database size={20} className="text-red-600 mr-3" />
-                            <span className="text-[10px] font-black text-red-800 uppercase tracking-widest">Tổng số lượng tồn kho:</span>
-                          </div>
-                          <span className="text-2xl font-black text-red-600">{formData.variants.reduce((acc, v) => acc + (v.stock || 0), 0)}</span>
-                        </div>
-                      )}
                     </div>
                   )}
                 </div>

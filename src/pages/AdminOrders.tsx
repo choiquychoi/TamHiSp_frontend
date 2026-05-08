@@ -269,77 +269,95 @@ const AdminOrders = () => {
 
                   <CardContent className="p-8 space-y-10">
                     {/* Customer Info */}
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 border-b border-gray-50 pb-2">Thông tin khách hàng</h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <User size={16} className="text-red-600" />
-                          <span className="text-sm font-black uppercase">{selectedOrder.customer.name}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Phone size={16} className="text-red-600" />
-                          <span className="text-sm font-bold">{selectedOrder.customer.phone}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Mail size={16} className="text-red-600" />
-                          <span className="text-sm font-bold text-gray-500">{selectedOrder.customer.email}</span>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <MapPin size={16} className="text-red-600 mt-1" />
-                          <span className="text-xs font-bold text-gray-500 leading-relaxed">
-                            {selectedOrder.customer.address}, {selectedOrder.customer.district}, {selectedOrder.customer.province}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Payment Method Info */}
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 border-b border-gray-50 pb-2">Phương thức thanh toán</h4>
-                      <div className="flex items-center gap-3">
-                        {selectedOrder.paymentMethod === 'Bank Transfer' ? (
-                          <div className="flex items-center gap-3 w-full p-4 bg-indigo-50 border border-indigo-100 rounded-2xl">
-                            <CreditCard size={20} className="text-indigo-600" />
-                            <span className="text-sm font-black uppercase text-indigo-600">Chuyển khoản ngân hàng</span>
+                    <div className="space-y-6">
+                      <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-red-600 border-b-2 border-red-50 pb-2">Thông tin khách hàng</h4>
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                            <User size={20} className="text-gray-900" />
                           </div>
-                        ) : (
-                          <div className="flex items-center gap-3 w-full p-4 bg-zinc-50 border border-zinc-100 rounded-2xl">
-                            <Truck size={20} className="text-zinc-600" />
-                            <span className="text-sm font-black uppercase text-zinc-600">Thanh toán khi nhận hàng (COD)</span>
+                          <div>
+                            <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Họ và tên</p>
+                            <p className="text-lg font-black uppercase text-gray-900">{selectedOrder.customer.name}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                            <Phone size={20} className="text-gray-900" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Số điện thoại</p>
+                            <p className="text-xl font-black text-red-600 tracking-widest">{selectedOrder.customer.phone}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-4">
+                          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                            <MapPin size={20} className="text-gray-900" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Địa chỉ giao hàng</p>
+                            <p className="text-sm font-bold text-gray-700 leading-relaxed mt-1">
+                              {selectedOrder.customer.address}, {selectedOrder.customer.district}, {selectedOrder.customer.province}
+                            </p>
+                          </div>
+                        </div>
+
+                        {selectedOrder.customer.note && (
+                          <div className="p-5 bg-amber-50 border border-amber-100 rounded-3xl">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Ghi chú của khách</p>
+                            <p className="text-sm font-bold italic text-amber-800 leading-relaxed">"{selectedOrder.customer.note}"</p>
                           </div>
                         )}
                       </div>
                     </div>
 
                     {/* Order Items */}
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 border-b border-gray-50 pb-2">Sản phẩm đã mua</h4>
-                      <div className="space-y-4">
+                    <div className="space-y-6">
+                      <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-red-600 border-b-2 border-red-50 pb-2">Sản phẩm khách đặt</h4>
+                      <div className="space-y-5">
                         {selectedOrder.items.map((item, idx) => (
-                          <div key={idx} className="flex gap-4 items-center bg-gray-50 p-3 rounded-2xl">
-                            <img src={item.image} className="w-12 h-12 rounded-lg object-cover bg-white" alt="" />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[10px] font-black uppercase tracking-tight truncate">{item.name}</p>
-                              <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">SL: {item.quantity} x {item.price.toLocaleString()}₫</p>
+                          <div key={idx} className="flex gap-5 items-start bg-white p-5 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                            <img src={item.image} className="w-20 h-20 rounded-2xl object-cover bg-gray-50 border border-gray-100" alt="" />
+                            <div className="flex-1 min-w-0 py-1">
+                              <p className="text-sm font-black uppercase tracking-tight text-gray-900 mb-1">{item.name}</p>
+                              
+                              {item.variantLabel && (
+                                <div className="inline-block px-3 py-1 bg-red-600 text-white rounded-lg mb-2">
+                                  <p className="text-[11px] font-black uppercase tracking-widest">{item.variantLabel}</p>
+                                </div>
+                              )}
+                              
+                              <div className="flex justify-between items-center mt-2">
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                                  SL: <span className="text-gray-900 font-black">{item.quantity}</span> x {item.price.toLocaleString()}₫
+                                </p>
+                                <span className="text-md font-black text-gray-900">{(item.price * item.quantity).toLocaleString()}₫</span>
+                              </div>
                             </div>
-                            <span className="text-xs font-black">{(item.price * item.quantity).toLocaleString()}₫</span>
                           </div>
                         ))}
+                      </div>
+
+                      <div className="p-6 bg-gray-950 rounded-[2rem] text-white flex justify-between items-center shadow-xl">
+                        <span className="text-xs font-black uppercase tracking-[0.2em]">Tổng tiền đơn hàng</span>
+                        <span className="text-2xl font-black text-red-500 tracking-tighter">{selectedOrder.totalAmount.toLocaleString()}₫</span>
                       </div>
                     </div>
 
                     {/* Change Status */}
-                    <div className="space-y-4 pt-6 border-t border-gray-100">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Cập nhật trạng thái</h4>
-                      <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-4 pt-4">
+                      <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-gray-400">Trạng thái xử lý</h4>
+                      <div className="grid grid-cols-2 gap-3">
                         {Object.entries(statusConfig).map(([key, config]) => (
                           <button
                             key={key}
                             onClick={() => updateOrderStatus(selectedOrder._id, key)}
-                            className={`flex items-center gap-2 p-3 rounded-xl border-2 transition-all ${selectedOrder.status === key ? 'border-red-600 bg-red-50' : 'border-gray-50 hover:border-gray-100'}`}
+                            className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all shadow-sm ${selectedOrder.status === key ? 'border-red-600 bg-red-50 shadow-red-100' : 'border-gray-50 bg-white hover:border-gray-200'}`}
                           >
-                            <config.icon size={14} className={selectedOrder.status === key ? 'text-red-600' : 'text-gray-400'} />
-                            <span className={`text-[10px] font-black uppercase tracking-tight ${selectedOrder.status === key ? 'text-red-600' : 'text-gray-500'}`}>
+                            <config.icon size={18} className={selectedOrder.status === key ? 'text-red-600' : 'text-gray-300'} />
+                            <span className={`text-[11px] font-black uppercase tracking-tight ${selectedOrder.status === key ? 'text-red-600' : 'text-gray-500'}`}>
                               {config.label}
                             </span>
                           </button>

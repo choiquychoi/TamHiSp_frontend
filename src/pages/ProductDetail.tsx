@@ -103,11 +103,11 @@ const ProductDetail: React.FC = () => {
     if (product.variants && product.variants.length > 0) {
       if (availableColors.length > 0 && availableColors[0] !== 'default' && !selectedColor) {
         alert('Vui lòng chọn màu sắc!');
-        return;
+        return false;
       }
       if (availableSizes.length > 0 && !selectedSize) {
         alert('Vui lòng chọn kích thước (Size)!');
-        return;
+        return false;
       }
     }
 
@@ -121,12 +121,13 @@ const ProductDetail: React.FC = () => {
       selectedSize,
       selectedColor: selectedColor === 'default' ? '' : selectedColor
     }, quantity);
-    alert('Đã thêm sản phẩm vào giỏ hàng!');
+    return true;
   };
 
   const handleBuyNow = () => {
-    handleAddToCart();
-    navigate('/cart');
+    if (handleAddToCart()) {
+      navigate('/cart');
+    }
   };
 
   return (
