@@ -142,73 +142,73 @@ const ProductDetail: React.FC = () => {
       <Navbar />
       
       <section className="bg-white pt-20">
-        <main className="max-w-7xl mx-auto px-4 py-10">
+        <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-10">
           {/* Breadcrumb */}
-          <div className="flex items-center space-x-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <div className="flex items-center space-x-2 text-[9px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 md:mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
             <Link to="/" className="hover:text-red-600 transition-colors">Trang chủ</Link>
-            <ChevronRight size={14} />
+            <ChevronRight size={12} />
             <Link to={`/category/${product.category}`} className="hover:text-red-600 transition-colors">{product.category}</Link>
-            <ChevronRight size={14} />
+            <ChevronRight size={12} />
             <span className="text-red-600 truncate">{product.name}</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Cột trái: Hình ảnh */}
-            <div className="space-y-6">
-              <div className="relative aspect-square rounded-[3rem] overflow-hidden border border-gray-100 shadow-2xl group bg-white">
-                <img src={activeImg} alt={product.name} className="w-full h-full object-contain p-8 transition-transform duration-700 group-hover:scale-110" />
+            <div className="space-y-4 md:space-y-6">
+              <div className="relative aspect-square rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-xl md:shadow-2xl group bg-white">
+                <img src={activeImg} alt={product.name} className="w-full h-full object-contain p-4 md:p-8 transition-transform duration-700 group-hover:scale-110" />
                 {discountPercentage > 0 && (
-                  <div className="absolute top-6 left-6 bg-red-600 text-white px-4 py-2 rounded-2xl font-black text-sm shadow-xl">
+                  <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-red-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl font-black text-xs md:text-sm shadow-xl">
                     -{discountPercentage}%
                   </div>
                 )}
               </div>
-              <div className="flex space-x-4 overflow-x-auto no-scrollbar pb-2">
+              <div className="flex space-x-3 md:space-x-4 overflow-x-auto no-scrollbar pb-2">
                 {[product.mainImage, ...product.gallery].map((img, idx) => (
                   <button 
                     key={idx} onClick={() => setActiveImg(img)}
-                    className={`flex-shrink-0 w-20 h-24 rounded-2xl overflow-hidden border-2 transition-all ${activeImg === img ? 'border-red-600 scale-95 shadow-lg' : 'border-gray-50 hover:border-gray-200'}`}
+                    className={`flex-shrink-0 w-16 h-20 md:w-20 md:h-24 rounded-xl md:rounded-2xl overflow-hidden border-2 transition-all ${activeImg === img ? 'border-red-600 scale-95 shadow-lg' : 'border-gray-50 hover:border-gray-200'}`}
                   >
-                    <img src={img} className="w-full h-full object-contain p-2 bg-white" alt="" />
+                    <img src={img} className="w-full h-full object-contain p-1.5 md:p-2 bg-white" alt="" />
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Cột phải: Thông tin */}
-            <div className="flex flex-col space-y-8">
-              <div className="space-y-4">
-                <div className="inline-block px-4 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">{product.brand}</div>
-                <h1 className="text-3xl md:text-5xl font-black leading-tight tracking-tighter uppercase">{product.name}</h1>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Mã sản phẩm: <span className="text-gray-900">{product.sku}</span></p>
+            <div className="flex flex-col space-y-6 md:space-y-8">
+              <div className="space-y-3 md:space-y-4">
+                <div className="inline-block px-3 py-1 bg-red-50 text-red-600 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-widest border border-red-100">{product.brand}</div>
+                <h1 className="text-2xl md:text-5xl font-black leading-tight tracking-tighter uppercase">{product.name}</h1>
+                <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">Mã sản phẩm: <span className="text-gray-900">{product.sku}</span></p>
               </div>
 
-              <div className="flex items-end space-x-4 py-6 border-y border-gray-50">
-                <div className="text-4xl font-black text-red-600">{(product.salePrice || product.price).toLocaleString()}đ</div>
-                {product.salePrice && <div className="text-xl font-bold text-gray-300 line-through mb-1">{product.price.toLocaleString()}đ</div>}
+              <div className="flex items-end space-x-3 md:space-x-4 py-4 md:py-6 border-y border-gray-50">
+                <div className="text-3xl md:text-4xl font-black text-red-600">{(product.salePrice || product.price).toLocaleString()}đ</div>
+                {product.salePrice && <div className="text-lg md:text-xl font-bold text-gray-300 line-through mb-1">{product.price.toLocaleString()}đ</div>}
               </div>
 
               <div className="space-y-6">
                 {/* PHẦN CHỌN BIẾN THỂ (MÀU & SIZE) */}
                 {product.variants && product.variants.length > 0 && (
-                  <div className="space-y-8 py-6 border-y border-gray-50">
+                  <div className="space-y-6 md:space-y-8 py-4 md:py-6 border-y border-gray-50">
                     {/* 1. Chọn màu sắc */}
                     {availableColors.length > 0 && availableColors[0] !== 'default' && (
-                      <div className="space-y-4">
+                      <div className="space-y-3 md:space-y-4">
                         <div className="flex justify-between items-center">
-                          <span className="text-xs font-black uppercase tracking-widest text-gray-400">
+                          <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-400">
                             Màu sắc: <span className="text-gray-900">{selectedColor}</span>
                           </span>
                         </div>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2 md:gap-3">
                           {availableColors.map(color => (
                             <button
                               key={color}
                               onClick={() => {
                                 setSelectedColor(color);
-                                setSelectedSize(''); // Reset size khi đổi màu
+                                setSelectedSize('');
                               }}
-                              className={`px-6 py-3 rounded-xl flex items-center justify-center text-[10px] font-black uppercase tracking-widest transition-all border-2 ${selectedColor === color ? 'bg-red-600 border-red-600 text-white shadow-xl scale-105' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
+                              className={`px-4 py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl flex items-center justify-center text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all border-2 ${selectedColor === color ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
                             >
                               {color}
                             </button>
@@ -217,34 +217,31 @@ const ProductDetail: React.FC = () => {
                       </div>
                     )}
 
-                    {/* 2. Chọn kích thước (Hiện sau khi đã có màu hoặc nếu chỉ có size) */}
+                    {/* 2. Chọn kích thước */}
                     {availableSizes.length > 0 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3 md:space-y-4">
                         <div className="flex justify-between items-center">
-                          <span className="text-xs font-black uppercase tracking-widest text-gray-400">
+                          <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-400">
                             Kích thước: <span className="text-gray-900">{selectedSize}</span>
                           </span>
                           {(product.category === 'Quần áo' || product.category === 'Giày Thể Thao') && (
-                            <button className="text-[10px] font-bold text-red-600 uppercase underline underline-offset-4">Bảng quy đổi size</button>
+                            <button className="text-[9px] font-bold text-red-600 uppercase underline underline-offset-4">Quy đổi size</button>
                           )}
                         </div>
-                        <div className="flex flex-wrap gap-3">
-                          {availableSizes.map((v, idx) => {
-                            const isOutOfStock = v.stock <= 0;
-                            return (
-                              <button
-                                key={idx}
-                                onClick={() => setSelectedSize(v.size || '')}
-                                className={`min-w-[3.5rem] h-12 rounded-xl flex flex-col items-center justify-center transition-all border-2 relative overflow-hidden ${
-                                  selectedSize === v.size 
-                                    ? 'bg-black border-black text-white shadow-xl scale-110 z-10' 
-                                    : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
-                                }`}
-                              >
-                                <span className="text-xs font-black">{v.size}</span>
-                              </button>
-                            );
-                          })}
+                        <div className="flex flex-wrap gap-2 md:gap-3">
+                          {availableSizes.map((v, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setSelectedSize(v.size || '')}
+                              className={`min-w-[3rem] md:min-w-[3.5rem] h-10 md:h-12 rounded-lg md:rounded-xl flex flex-col items-center justify-center transition-all border-2 relative overflow-hidden ${
+                                selectedSize === v.size 
+                                  ? 'bg-black border-black text-white shadow-lg scale-105 z-10' 
+                                  : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
+                              }`}
+                            >
+                              <span className="text-[11px] md:text-xs font-black">{v.size}</span>
+                            </button>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -252,43 +249,42 @@ const ProductDetail: React.FC = () => {
                 )}
 
                 <div className="flex items-center space-x-6">
-                  <span className="text-xs font-black uppercase tracking-widest text-gray-400">Số lượng:</span>
-                  <div className="flex items-center border-2 border-gray-100 rounded-2xl p-1 bg-gray-50">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-2 hover:text-red-600 transition-colors font-bold text-xl px-3">-</button>
-                    <span className="w-12 text-center font-black text-lg">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="p-2 hover:text-red-600 transition-colors font-bold text-xl px-3">+</button>
+                  <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-400">Số lượng:</span>
+                  <div className="flex items-center border-2 border-gray-100 rounded-xl md:rounded-2xl p-0.5 md:p-1 bg-gray-50">
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-1.5 md:p-2 hover:text-red-600 transition-colors font-bold text-lg md:text-xl px-3">-</button>
+                    <span className="w-10 md:w-12 text-center font-black text-sm md:text-lg">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)} className="p-1.5 md:p-2 hover:text-red-600 transition-colors font-bold text-lg md:text-xl px-3">+</button>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                   <button 
                     onClick={handleAddToCart}
-                    className="flex-1 bg-black text-white py-5 rounded-[2rem] font-black uppercase tracking-widest text-xs flex items-center justify-center shadow-2xl hover:bg-gray-800 transition-all active:scale-95 group"
+                    className="flex-1 bg-black text-white py-4 md:py-5 rounded-xl md:rounded-[2rem] font-black uppercase tracking-widest text-[10px] md:text-xs flex items-center justify-center shadow-xl hover:bg-gray-800 transition-all active:scale-95"
                   >
-                    <ShoppingCart size={20} className="mr-2 group-hover:rotate-12 transition-transform" /> 
-                    Thêm vào giỏ
+                    <ShoppingCart size={18} className="mr-2" /> Thêm vào giỏ
                   </button>
                   <button 
                     onClick={handleBuyNow}
-                    className="flex-1 bg-red-600 text-white py-5 rounded-[2rem] font-black uppercase tracking-widest text-xs flex items-center justify-center shadow-2xl shadow-red-200 hover:bg-red-700 transition-all active:scale-95"
+                    className="flex-1 bg-red-600 text-white py-4 md:py-5 rounded-xl md:rounded-[2rem] font-black uppercase tracking-widest text-[10px] md:text-xs flex items-center justify-center shadow-xl shadow-red-200 hover:bg-red-700 transition-all active:scale-95"
                   >
-                    <Zap size={20} className="mr-2" /> 
-                    Mua ngay
+                    <Zap size={18} className="mr-2" /> Mua ngay
                   </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
-                <div className="flex flex-col items-center text-center p-4 bg-blue-50/30 rounded-3xl border border-blue-50">
-                  <ShieldCheck className="text-blue-600 mb-2" size={24} />
-                  <span className="text-[9px] font-black uppercase leading-tight">Chính hãng 100%</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 pt-4 md:pt-6">
+                <div className="flex items-center sm:flex-col sm:text-center gap-3 p-3 md:p-4 bg-blue-50/30 rounded-2xl md:rounded-3xl border border-blue-50">
+                  <ShieldCheck className="text-blue-600 shrink-0" size={20} />
+                  <span className="text-[8px] md:text-[9px] font-black uppercase leading-tight">Chính hãng 100%</span>
                 </div>
-                <div className="flex flex-col items-center text-center p-4 bg-green-50/30 rounded-3xl border border-green-50">
-                  <Truck className="text-green-600 mb-2" size={24} />
-                  <span className="text-[9px] font-black uppercase leading-tight">Giao hàng hỏa tốc</span>
+                <div className="flex items-center sm:flex-col sm:text-center gap-3 p-3 md:p-4 bg-green-50/30 rounded-2xl md:rounded-3xl border border-green-50">
+                  <Truck className="text-green-600 shrink-0" size={20} />
+                  <span className="text-[8px] md:text-[9px] font-black uppercase leading-tight">Giao hàng hỏa tốc</span>
                 </div>
-                <div className="flex flex-col items-center text-center p-4 bg-orange-50/30 rounded-3xl border border-orange-50">
-                  <RefreshCw className="text-orange-600 mb-2" size={24} />
-                  <span className="text-[9px] font-black uppercase leading-tight">7 ngày đổi trả</span>
+                <div className="flex items-center sm:flex-col sm:text-center gap-3 p-3 md:p-4 bg-orange-50/30 rounded-2xl md:rounded-3xl border border-orange-50">
+                  <RefreshCw className="text-orange-600 shrink-0" size={20} />
+                  <span className="text-[8px] md:text-[9px] font-black uppercase leading-tight">7 ngày đổi trả</span>
                 </div>
               </div>
             </div>
@@ -297,33 +293,34 @@ const ProductDetail: React.FC = () => {
       </section>
 
       {/* Phần mô tả & thông số */}
-      <section className="bg-slate-50/50 py-24 border-y border-gray-100">
+      <section className="bg-slate-50/50 py-12 md:py-24 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-center space-x-12 mb-16">
-            <button onClick={() => setShowSpecs(false)} className={`pb-4 text-xs font-black uppercase tracking-[0.4em] transition-all border-b-4 ${!showSpecs ? 'border-red-600 text-red-600' : 'border-transparent text-gray-300 hover:text-gray-400'}`}>Mô tả sản phẩm</button>
-            <button onClick={() => setShowSpecs(true)} className={`pb-4 text-xs font-black uppercase tracking-[0.4em] transition-all border-b-4 ${showSpecs ? 'border-red-600 text-red-600' : 'border-transparent text-gray-300 hover:text-gray-400'}`}>Thông số kỹ thuật</button>
+          <div className="flex justify-center space-x-6 md:space-x-12 mb-10 md:mb-16">
+            <button onClick={() => setShowSpecs(false)} className={`pb-3 md:pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] md:tracking-[0.4em] transition-all border-b-2 md:border-b-4 ${!showSpecs ? 'border-red-600 text-red-600' : 'border-transparent text-gray-300 hover:text-gray-400'}`}>Mô tả</button>
+            <button onClick={() => setShowSpecs(true)} className={`pb-3 md:pb-4 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] md:tracking-[0.4em] transition-all border-b-2 md:border-b-4 ${showSpecs ? 'border-red-600 text-red-600' : 'border-transparent text-gray-300 hover:text-gray-400'}`}>Thông số</button>
           </div>
 
           <div className="max-w-4xl mx-auto">
             {!showSpecs ? (
-              <div className="relative bg-white p-10 md:p-16 rounded-[3rem] shadow-sm border border-gray-100">
-                <div className={`prose prose-red max-w-none text-gray-600 leading-relaxed font-medium transition-all duration-700 overflow-hidden ${!isExpanded ? 'max-h-[500px]' : 'max-h-[10000px]'}`}>
-                  <p className="whitespace-pre-line text-lg">{product.description}</p>
+              <div className="relative bg-white p-6 md:p-16 rounded-[2rem] md:rounded-[3rem] shadow-sm border border-gray-100">
+                <div className={`prose prose-red max-w-none text-gray-600 leading-relaxed font-medium transition-all duration-700 overflow-hidden ${!isExpanded ? 'max-h-[400px] md:max-h-[500px]' : 'max-h-[10000px]'}`}>
+                  <p className="whitespace-pre-line text-base md:text-lg">{product.description}</p>
                 </div>
                 {!isExpanded && (
-                  <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-10 rounded-b-[3rem]">
-                    <button onClick={() => setIsExpanded(true)} className="bg-gray-950 text-white px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-[0.2em] hover:bg-red-600 transition-all shadow-2xl">Xem toàn bộ mô tả</button>
+                  <div className="absolute bottom-0 left-0 right-0 h-32 md:h-48 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-6 md:pb-10 rounded-b-[2rem] md:rounded-b-[3rem]">
+                    <button onClick={() => setIsExpanded(true)} className="bg-gray-950 text-white px-8 md:px-10 py-3 md:py-4 rounded-full font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-red-600 transition-all shadow-xl">Xem thêm</button>
                   </div>
                 )}
-                {isExpanded && <button onClick={() => setIsExpanded(false)} className="mt-12 block mx-auto text-gray-400 font-black uppercase text-[10px] tracking-widest hover:text-red-600 transition-colors underline underline-offset-8">Thu gọn nội dung</button>}
+                {isExpanded && <button onClick={() => setIsExpanded(false)} className="mt-8 md:mt-12 block mx-auto text-gray-400 font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:text-red-600 transition-colors underline underline-offset-8">Thu gọn</button>}
               </div>
             ) : (
-              <div className="bg-white rounded-[3rem] border border-gray-100 shadow-xl overflow-hidden">
-                <div className="bg-gray-950 p-6 flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
-                  <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Engineered Specifications</span>
+              <div className="bg-white rounded-[2rem] md:rounded-[3rem] border border-gray-100 shadow-xl overflow-hidden">
+                <div className="bg-gray-950 p-4 md:p-6 flex items-center space-x-3">
+                  <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-red-600 rounded-full animate-pulse" />
+                  <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] md:tracking-[0.4em]">Engineered Specifications</span>
                 </div>
-                <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <div className="p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-4 md:gap-y-6">
+                  {/* ... specifications map logic ... */}
                   {(() => {
                     let specsToDisplay: any = {};
                     const specs = product.specifications || {};

@@ -26,7 +26,6 @@ const AdminBanners: React.FC = () => {
     image: '',
     title: '',
     subtitle: '',
-    buttonText: 'MUA NGAY',
     link: '/',
     order: 0,
     isActive: true

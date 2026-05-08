@@ -53,36 +53,36 @@ const FeaturedProducts = () => {
   );
 
   return (
-    <section className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-          <div>
-            <Badge className="mb-2 px-3 py-1 text-xs font-bold uppercase tracking-wider bg-destructive text-white border-none">
+    <section className="py-12 md:py-24 bg-white overflow-hidden">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-16 gap-4 px-2">
+          <div className="space-y-1 md:space-y-2">
+            <Badge className="mb-1 md:mb-2 px-2 py-0.5 md:px-3 md:py-1 text-[8px] md:text-xs font-bold uppercase tracking-wider bg-destructive text-white border-none">
               Hot Collection
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic leading-none">
               Sản Phẩm <span className="text-destructive">Nổi Bật</span>
             </h2>
           </div>
-          <Button variant="link" className="font-bold uppercase tracking-widest p-0 h-auto text-muted-foreground hover:text-destructive transition-colors">
+          <Button variant="link" className="font-bold uppercase tracking-widest p-0 h-auto text-muted-foreground hover:text-destructive transition-colors text-[10px] md:text-xs">
             Xem tất cả sản phẩm →
           </Button>
         </div>
 
         <Swiper
           modules={[Navigation, Pagination]}
-          spaceBetween={24}
-          slidesPerView={1}
+          spaceBetween={16}
+          slidesPerView={2.2}
           pagination={{ 
             clickable: true,
             dynamicBullets: true 
           }}
           breakpoints={{
-            640: { slidesPerView: 2 },
-            768: { slidesPerView: 3 },
-            1024: { slidesPerView: 4 },
+            640: { slidesPerView: 2.5, spaceBetween: 20 },
+            768: { slidesPerView: 3.2, spaceBetween: 30 },
+            1024: { slidesPerView: 4, spaceBetween: 40 },
           }}
-          className="pb-16 !px-2"
+          className="pb-12 md:pb-16 !px-2 md:!px-0"
         >
           {products.map((product) => {
             const hasSale = product.salePrice && product.salePrice > 0;

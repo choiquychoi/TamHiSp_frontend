@@ -67,7 +67,7 @@ const NewsPage = () => {
       <Navbar />
 
       {/* Hero Header */}
-      <section className="relative pt-32 pb-20 bg-zinc-950 overflow-hidden">
+      <section className="relative pt-32 md:pt-40 pb-16 md:pb-32 bg-zinc-950 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img 
             src="https://images.unsplash.com/photo-1626224580175-66094142ce3a?q=80&w=2000" 
@@ -83,14 +83,14 @@ const NewsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Badge className="mb-6 bg-destructive hover:bg-destructive px-4 py-1.5 rounded-none uppercase tracking-[0.2em] font-black text-[10px]">
+            <Badge className="mb-4 md:mb-6 bg-destructive hover:bg-destructive px-3 py-1 md:px-4 md:py-1.5 rounded-none uppercase tracking-[0.2em] font-black text-[8px] md:text-[10px]">
               Cộng đồng yêu thể thao
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter italic mb-6">
+            <h1 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter italic mb-4 md:mb-6 leading-none">
               Tin tức <span className="text-destructive">&</span> Kiến thức
             </h1>
-            <p className="max-w-2xl mx-auto text-zinc-400 font-medium text-sm md:text-base uppercase tracking-widest leading-relaxed">
-              Cập nhật những kỹ thuật đỉnh cao, đánh giá thiết bị chuyên sâu và tin tức nóng hổi từ thế giới cầu lông chuyên nghiệp.
+            <p className="max-w-2xl mx-auto text-zinc-400 font-medium text-xs md:text-base uppercase tracking-widest leading-relaxed px-4">
+              Cập nhật kỹ thuật đỉnh cao, đánh giá thiết bị chuyên sâu và tin tức nóng hổi.
             </p>
           </motion.div>
         </div>
@@ -98,11 +98,11 @@ const NewsPage = () => {
 
       {/* Categories Filter Bar */}
       <div className="sticky top-20 z-40 bg-white border-b border-zinc-100 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center gap-8 overflow-x-auto py-6 scrollbar-hide">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="flex items-center gap-6 md:gap-8 overflow-x-auto py-4 md:py-6 no-scrollbar">
             <div className="flex items-center gap-2 text-zinc-400 shrink-0">
-              <Filter size={16} className="text-destructive" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Lọc theo:</span>
+              <Filter size={14} md:size={16} className="text-destructive" />
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest">Lọc:</span>
             </div>
             {CATEGORIES.map((cat) => (
               <button
