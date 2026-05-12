@@ -61,7 +61,7 @@ const AdminLogin: React.FC = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-red-500 focus:border-red-500 transition-all outline-none"
+                  className="block w-full pl-10 pr-3 py-4 border border-gray-300 rounded-2xl focus:ring-red-500 focus:border-red-500 transition-all outline-none text-base"
                   placeholder="admin"
                   required
                 />
@@ -78,7 +78,7 @@ const AdminLogin: React.FC = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-red-500 focus:border-red-500 transition-all outline-none"
+                  className="block w-full pl-10 pr-3 py-4 border border-gray-300 rounded-2xl focus:ring-red-500 focus:border-red-500 transition-all outline-none text-base"
                   placeholder="••••••••"
                   required
                 />

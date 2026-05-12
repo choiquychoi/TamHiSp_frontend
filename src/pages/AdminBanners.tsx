@@ -251,7 +251,7 @@ const AdminBanners: React.FC = () => {
       )}
 
       <style>{`
-        .form-input-custom { width: 100%; padding: 1.25rem 1.5rem; background: #f9fafb; border: 1.5px solid #f3f4f6; border-radius: 1.5rem; font-weight: 800; color: #1f2937; outline: none; transition: all 0.3s; font-size: 13px; }
+        .form-input-custom { width: 100%; padding: 1.25rem 1.5rem; background: #f9fafb; border: 1.5px solid #f3f4f6; border-radius: 1.5rem; font-weight: 800; color: #1f2937; outline: none; transition: all 0.3s; font-size: 16px; }
         .form-input-custom:focus { border-color: #dc2626; background: white; box-shadow: 0 10px 20px -10px rgba(220, 38, 38, 0.15); }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }

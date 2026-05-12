@@ -159,7 +159,7 @@ const AdminContact: React.FC = () => {
       </div>
 
       <style>{`
-        .form-input-custom { width: 100%; padding: 1.25rem; background: white; border: 1.5px solid #f3f4f6; border-radius: 1.5rem; font-weight: 800; color: #1f2937; outline: none; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .form-input-custom { width: 100%; padding: 1.25rem; background: white; border: 1.5px solid #f3f4f6; border-radius: 1.5rem; font-weight: 800; color: #1f2937; outline: none; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); font-size: 16px; }
         .form-input-custom:focus { border-color: #dc2626; box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.1); }
       `}</style>
     </div>

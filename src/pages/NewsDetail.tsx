@@ -293,7 +293,7 @@ const NewsDetail = () => {
               <Input 
                 type="text"
                 placeholder="TÌM KIẾM BÀI VIẾT..." 
-                className="pl-12 h-14 rounded-none border-2 border-zinc-100 focus:border-destructive focus-visible:ring-0 font-black text-xs tracking-widest uppercase transition-all"
+                className="pl-12 h-14 rounded-none border-2 border-zinc-100 focus:border-destructive focus-visible:ring-0 font-black text-base tracking-widest uppercase transition-all"
               />
             </div>
 
@@ -361,18 +361,6 @@ const NewsDetail = () => {
               </div>
             </div>
 
-            <div className="relative rounded-3xl overflow-hidden bg-zinc-950 text-white p-8 group">
-               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1626224580175-66094142ce3a?q=80&w=800&auto=format&fit=crop')] bg-cover bg-center opacity-20 scale-110 group-hover:scale-100 transition-transform duration-[2s]"></div>
-               <div className="relative z-10">
-                  <Badge className="bg-destructive hover:bg-destructive mb-4 rounded-none uppercase text-[8px] font-black">Khuyến mãi</Badge>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 leading-none">Ưu đãi hè rực rỡ <br/><span className="text-destructive">giảm tới 50%</span></h3>
-                  <p className="text-zinc-400 text-xs font-medium mb-6 uppercase tracking-widest">Áp dụng cho vợt Yonex & Victor</p>
-                  <Button className="w-full bg-white text-zinc-950 hover:bg-destructive hover:text-white font-black uppercase tracking-widest h-12 rounded-none transition-all">
-                     Mua ngay
-                  </Button>
-               </div>
-            </div>
-
             <div className="p-8 rounded-3xl border-2 border-dashed border-zinc-200">
               <h3 className="text-sm font-black uppercase tracking-widest mb-6 flex items-center gap-2">
                 <Tag size={16} className="text-destructive" /> TAGS PHỔ BIẾN
@@ -391,15 +379,6 @@ const NewsDetail = () => {
 
       <Footer />
       
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-zinc-100 z-50 flex items-center justify-between">
-          <div className="flex gap-4">
-            <button className="h-10 w-10 rounded-full flex items-center justify-center bg-zinc-100 text-zinc-900"><Heart size={20} /></button>
-            <button className="h-10 w-10 rounded-full flex items-center justify-center bg-zinc-100 text-zinc-900"><MessageSquare size={20} /></button>
-          </div>
-          <Button className="bg-destructive font-black uppercase tracking-widest px-8 h-10">
-            MUA SẢN PHẨM
-          </Button>
-      </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
         .article-body-container {

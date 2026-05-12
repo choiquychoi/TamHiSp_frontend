@@ -454,7 +454,7 @@ const AdminNews: React.FC = () => {
             <textarea 
               rows={5} 
               placeholder="Nhập yêu cầu bài viết... (VD: Viết đánh giá sâu về Pickleball)" 
-              className="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-xs font-medium focus:bg-white/10 outline-none transition-all placeholder:text-zinc-700 leading-relaxed"
+              className="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-base font-medium focus:bg-white/10 outline-none transition-all placeholder:text-zinc-700 leading-relaxed"
               value={aiPrompt}
               onChange={(e) => setAiPrompt(e.target.value)}
             />
@@ -483,13 +483,13 @@ const AdminNews: React.FC = () => {
               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Đường dẫn bài viết (URL)</label>
               <div className="flex items-center bg-gray-50 rounded-2xl px-6 py-4">
                 <span className="text-[10px] text-gray-300 font-bold mr-2">/news/</span>
-                <input type="text" className="bg-transparent border-none outline-none w-full font-bold text-xs" value={slug} onChange={(e) => setSlug(e.target.value)} />
+                <input type="text" className="bg-transparent border-none outline-none w-full font-bold text-base" value={slug} onChange={(e) => setSlug(e.target.value)} />
               </div>
             </div>
 
             <div className="space-y-3">
               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Danh mục tin tức</label>
-              <select className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-black text-xs outline-none appearance-none cursor-pointer" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <select className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-black text-base outline-none appearance-none cursor-pointer" value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value="Review sản phẩm">REVIEW SẢN PHẨM</option>
                 <option value="Hướng dẫn kỹ thuật">HƯỚNG DẪN KỸ THUẬT</option>
                 <option value="Tin tức giải đấu">TIN TỨC GIẢI ĐẤU</option>
@@ -518,7 +518,7 @@ const AdminNews: React.FC = () => {
                 </label>
                 
                 <div className="flex items-center space-x-4">
-                  <input type="text" placeholder="Hoặc dán link ảnh..." className="flex-1 bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-xs outline-none" value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} />
+                  <input type="text" placeholder="Hoặc dán link ảnh..." className="flex-1 bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-base outline-none" value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} />
                   <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100 shadow-inner relative group">
                     {thumbnail ? (
                       <>
@@ -533,7 +533,7 @@ const AdminNews: React.FC = () => {
 
             <div className="space-y-3">
               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Mô tả SEO (Brief)</label>
-              <textarea rows={4} className="w-full bg-gray-50 border-none rounded-2xl p-6 text-xs font-bold outline-none leading-relaxed" placeholder="Tóm tắt bài viết để thu hút người đọc trên Google..." value={summary} onChange={(e) => setSummary(e.target.value)} />
+              <textarea rows={4} className="w-full bg-gray-50 border-none rounded-2xl p-6 text-base font-bold outline-none leading-relaxed" placeholder="Tóm tắt bài viết để thu hút người đọc trên Google..." value={summary} onChange={(e) => setSummary(e.target.value)} />
             </div>
           </div>
         </div>

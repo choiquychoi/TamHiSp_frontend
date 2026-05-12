@@ -34,7 +34,11 @@ const HeroBanner = () => {
 
   const slides = banners.length > 0 ? banners : defaultSlides;
 
-  if (loading && banners.length === 0) return <div className="w-full aspect-video bg-zinc-900 animate-pulse flex items-center justify-center text-white font-black uppercase tracking-[0.5em]">Loading Hero...</div>;
+  if (loading && banners.length === 0) return (
+    <div className="w-full aspect-[16/7] md:aspect-[21/7] bg-zinc-900 animate-pulse flex items-center justify-center text-white font-black uppercase tracking-[0.5em]">
+      Loading Hero...
+    </div>
+  );
 
   return (
     <section className="relative w-full bg-zinc-900 overflow-hidden">
@@ -44,7 +48,7 @@ const HeroBanner = () => {
         fadeEffect={{ crossFade: true }}
         speed={1000}
         slidesPerView={1}
-        autoHeight={true}
+        autoHeight={false}
         navigation={{
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
@@ -58,53 +62,61 @@ const HeroBanner = () => {
         }}
         autoplay={{ delay: 6000, disableOnInteraction: false }}
         loop={slides.length > 1}
-        className="w-full h-auto"
+        className="w-full"
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide._id}>
             {({ isActive }) => (
-              <div className="w-full relative">
-                {/* Full Image Display - No Cropping */}
+              <div className="w-full relative aspect-[16/8] md:aspect-[21/7] min-h-[250px] md:min-h-[400px]">
+                {/* Background Image with Fixed Size */}
                 <img 
                   src={slide.image} 
                   alt={slide.title}
-                  className="w-full h-auto block"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
                 
-                {/* Light Overlay for text readability if text exists */}
-                {(slide.title || slide.subtitle) && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent flex items-center">
-                    <div className="container mx-auto px-6 md:px-12 relative z-10 pt-4 md:pt-0">
-                      <div className="max-w-[200px] sm:max-w-xl md:max-w-2xl lg:max-w-4xl text-white">
-                        <motion.div
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                          transition={{ duration: 0.8, delay: 0.3 }}
-                        >
-                          <h1 className="text-xl sm:text-4xl md:text-6xl lg:text-7xl font-black mb-1 md:mb-4 uppercase tracking-tighter leading-tight drop-shadow-2xl">
-                            {slide.title}
-                          </h1>
-                        </motion.div>
-                        
-                        <motion.p 
-                          initial={{ opacity: 0, y: 15 }}
-                          animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-                          transition={{ duration: 0.8, delay: 0.5 }}
-                          className="text-[8px] sm:text-sm md:text-lg font-bold max-w-[160px] sm:max-w-md md:max-w-xl opacity-90 uppercase tracking-widest leading-tight border-l-2 border-destructive pl-2 md:pl-4"
-                        >
-                          {slide.subtitle}
-                        </motion.p>
-                      </div>
+                {/* Darker Overlay for better contrast and depth */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent flex items-center">
+                  <div className="container mx-auto px-6 md:px-12 relative z-10">
+                    <div className="max-w-[280px] sm:max-w-xl md:max-w-2xl lg:max-w-4xl text-white">
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                      >
+                        <h1 className="text-2xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-2 md:mb-6 uppercase tracking-tighter leading-[0.9] drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
+                          {slide.title}
+                        </h1>
+                      </motion.div>
+                      
+                      <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        className="text-[10px] sm:text-base md:text-xl font-bold max-w-[200px] sm:max-w-md md:max-w-xl opacity-90 uppercase tracking-widest leading-tight border-l-4 border-destructive pl-3 md:pl-6"
+                      >
+                        {slide.subtitle}
+                      </motion.p>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             )}
           </SwiperSlide>
         ))}
 
-        {/* Navigation Overlays */}
-        <div className="absolute bottom-4 left-0 w-full z-20 flex justify-center md:hidden">
+        {/* Custom Navigation Arrows for Desktop */}
+        <div className="absolute inset-0 z-10 pointer-events-none hidden md:block">
+          <div className="container mx-auto h-full relative">
+            <button className="swiper-button-prev !static !w-12 !h-12 !bg-white/10 hover:!bg-destructive !text-white rounded-full !mt-0 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-auto transition-all border border-white/20">
+            </button>
+            <button className="swiper-button-next !static !w-12 !h-12 !bg-white/10 hover:!bg-destructive !text-white rounded-full !mt-0 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-auto transition-all border border-white/20">
+            </button>
+          </div>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="absolute bottom-6 left-0 w-full z-20 flex justify-center md:hidden">
           <div className="swiper-pagination-custom flex gap-2"></div>
         </div>
       </Swiper>

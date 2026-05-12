@@ -271,7 +271,7 @@ const AdminProducts: React.FC = () => {
           <input 
             type="text" 
             placeholder="Tìm theo tên, thương hiệu hoặc SKU..." 
-            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-none rounded-[1.5rem] text-xs font-bold outline-none focus:ring-2 focus:ring-red-600 transition-all"
+            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-none rounded-[1.5rem] text-base font-bold outline-none focus:ring-2 focus:ring-red-600 transition-all"
             value={keyword}
             onChange={(e) => { setKeyword(e.target.value); setPage(1); }}
           />
@@ -280,7 +280,7 @@ const AdminProducts: React.FC = () => {
         <div className="relative">
           <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
           <select 
-            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-none rounded-[1.5rem] text-[10px] font-black uppercase tracking-widest appearance-none outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-none rounded-[1.5rem] text-base font-black uppercase tracking-widest appearance-none outline-none focus:ring-2 focus:ring-red-600"
             value={category}
             onChange={(e) => { setCategory(e.target.value); setPage(1); }}
           >
@@ -292,7 +292,7 @@ const AdminProducts: React.FC = () => {
         <div className="relative">
           <ArrowUpDown className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
           <select 
-            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-none rounded-[1.5rem] text-[10px] font-black uppercase tracking-widest appearance-none outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-none rounded-[1.5rem] text-base font-black uppercase tracking-widest appearance-none outline-none focus:ring-2 focus:ring-red-600"
             value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
@@ -402,7 +402,7 @@ const AdminProducts: React.FC = () => {
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Tên sản phẩm</label><input type="text" required className="form-input-custom" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Yonex Astrox 100ZZ" /></div>
-                    <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Mã SKU (Tự động)</label><input type="text" className="form-input-custom bg-gray-100/50" value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} placeholder="Hệ thống tự tạo..." /></div>
+                    <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Mã SKU (Tự động điền)</label><input type="text" className="form-input-custom bg-gray-100/50" value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} placeholder="Hệ thống tự tạo..." /></div>
                     <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Thương hiệu</label><input type="text" required className="form-input-custom" value={formData.brand} onChange={e => setFormData({...formData, brand: e.target.value})} placeholder="Yonex, Wilson..." /></div>
                     <div className="space-y-3"><label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Danh mục</label>
                       <select className="form-input-custom font-black uppercase text-xs" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value as any})}>
@@ -657,7 +657,7 @@ const AdminProducts: React.FC = () => {
       )}
 
       <style>{`
-        .form-input-custom { width: 100%; padding: 1.5rem; background: white; border: 1.5px solid #f3f4f6; border-radius: 1.5rem; font-weight: 800; color: #1f2937; outline: none; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .form-input-custom { width: 100%; padding: 1.5rem; background: white; border: 1.5px solid #f3f4f6; border-radius: 1.5rem; font-weight: 800; color: #1f2937; outline: none; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); font-size: 16px; }
         .form-input-custom:focus { border-color: #dc2626; box-shadow: 0 15px 30px -10px rgba(220, 38, 38, 0.15); transform: translateY(-2px); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }

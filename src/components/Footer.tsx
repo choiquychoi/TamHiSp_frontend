@@ -55,7 +55,7 @@ const Footer = () => {
             <Input 
               type="email" 
               placeholder="Nhập email của bạn..." 
-              className="h-14 rounded-r-none border-zinc-700 bg-zinc-800/50 focus:ring-destructive focus:border-destructive text-white placeholder:text-zinc-500"
+              className="h-14 rounded-r-none border-zinc-700 bg-zinc-800/50 focus:ring-destructive focus:border-destructive text-white placeholder:text-zinc-500 text-base"
             />
             <Button className="h-14 px-8 rounded-l-none bg-destructive hover:bg-destructive/90 font-black uppercase tracking-widest transition-all">
               <Send className="h-5 w-5 mr-2" />

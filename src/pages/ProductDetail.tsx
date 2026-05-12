@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Zap, ShieldCheck, Truck, RefreshCw, ChevronRight, Minus, Plus } from 'lucide-react';
+import { ShoppingCart, Zap, ShieldCheck, Truck, RefreshCw, ChevronRight, ChevronLeft, Minus, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
@@ -46,6 +46,16 @@ const ProductDetail: React.FC = () => {
   const [showSpecs, setShowSpecs] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' ? scrollLeft - clientWidth / 2 : scrollLeft + clientWidth / 2;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
 
   // Nhóm biến thể theo màu sắc
   const variantsByColor = React.useMemo(() => {
@@ -163,15 +173,36 @@ const ProductDetail: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className="flex space-x-3 md:space-x-4 overflow-x-auto no-scrollbar pb-2">
-                {[product.mainImage, ...product.gallery].map((img, idx) => (
-                  <button 
-                    key={idx} onClick={() => setActiveImg(img)}
-                    className={`flex-shrink-0 w-16 h-20 md:w-20 md:h-24 rounded-xl md:rounded-2xl overflow-hidden border-2 transition-all ${activeImg === img ? 'border-red-600 scale-95 shadow-lg' : 'border-gray-50 hover:border-gray-200'}`}
-                  >
-                    <img src={img} className="w-full h-full object-contain p-1.5 md:p-2 bg-white" alt="" />
-                  </button>
-                ))}
+              <div className="relative group/gallery">
+                {/* Nút scroll trái */}
+                <button 
+                  onClick={() => scroll('left')}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-1 rounded-full shadow-md md:hidden group-hover/gallery:flex items-center justify-center transition-all border border-gray-100"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+
+                <div 
+                  ref={scrollRef}
+                  className="flex space-x-3 md:space-x-4 overflow-x-auto no-scrollbar pb-2 scroll-smooth"
+                >
+                  {[product.mainImage, ...product.gallery].map((img, idx) => (
+                    <button 
+                      key={idx} onClick={() => setActiveImg(img)}
+                      className={`flex-shrink-0 w-16 h-20 md:w-20 md:h-24 rounded-xl md:rounded-2xl overflow-hidden border-2 transition-all ${activeImg === img ? 'border-red-600 scale-95 shadow-lg' : 'border-gray-50 hover:border-gray-200'}`}
+                    >
+                      <img src={img} className="w-full h-full object-contain p-1.5 md:p-2 bg-white" alt="" />
+                    </button>
+                  ))}
+                </div>
+
+                {/* Nút scroll phải */}
+                <button 
+                  onClick={() => scroll('right')}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-1 rounded-full shadow-md md:hidden group-hover/gallery:flex items-center justify-center transition-all border border-gray-100"
+                >
+                  <ChevronRight size={16} />
+                </button>
               </div>
             </div>
 

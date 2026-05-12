@@ -37,7 +37,7 @@ const Checkout = () => {
     phone: '',
     email: '',
     address: '',
-    province: 'Hồ Chí Minh',
+    province: '',
     district: '',
     note: '',
     paymentMethod: 'COD' as 'COD' | 'Bank Transfer'
@@ -229,14 +229,14 @@ const Checkout = () => {
                   <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Họ và tên khách hàng *</label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-destructive transition-colors" size={16} />
-                    <Input required name="name" value={formData.name} onChange={handleInputChange} placeholder="Nguyễn Văn A" className="h-12 md:h-14 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-sm" />
+                    <Input required name="name" value={formData.name} onChange={handleInputChange} placeholder="Nguyễn Văn A" className="h-12 md:h-14 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-base" />
                   </div>
                 </div>
                 <div className="space-y-2 group">
                   <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Số điện thoại liên hệ *</label>
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-destructive transition-colors" size={16} />
-                    <Input required name="phone" value={formData.phone} onChange={handleInputChange} placeholder="090 251 3939" className="h-12 md:h-14 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-sm" />
+                    <Input required name="phone" value={formData.phone} onChange={handleInputChange} placeholder="090 251 3939" className="h-12 md:h-14 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-base" />
                   </div>
                 </div>
               </div>
@@ -245,23 +245,18 @@ const Checkout = () => {
                 <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Địa chỉ Email (Nếu có)</label>
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-destructive transition-colors" size={16} />
-                  <Input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="khachhang@gmail.com" className="h-12 md:h-14 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-sm" />
+                  <Input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="khachhang@gmail.com" className="h-12 md:h-14 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-base" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Tỉnh / Thành phố *</label>
-                  <select name="province" value={formData.province} onChange={handleInputChange} className="w-full h-12 md:h-14 px-4 rounded-xl md:rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-destructive font-bold text-sm outline-none bg-white">
-                    <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                    <option value="Hà Nội">Hà Nội</option>
-                    <option value="Đà Nẵng">Đà Nẵng</option>
-                    <option value="Khác">Tỉnh thành khác...</option>
-                  </select>
+                  <Input required name="province" value={formData.province} onChange={handleInputChange} placeholder="Hồ Chí Minh, Hà Nội..." className="h-12 md:h-14 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-base" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Quận / Huyện *</label>
-                  <Input required name="district" value={formData.district} onChange={handleInputChange} placeholder="Quận 1, Quận Bình Thạnh..." className="h-12 md:h-14 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-sm" />
+                  <Input required name="district" value={formData.district} onChange={handleInputChange} placeholder="Quận 1, Quận Bình Thạnh..." className="h-12 md:h-14 rounded-xl md:rounded-2xl border-none shadow-sm focus-visible:ring-2 focus-visible:ring-destructive font-bold text-base" />
                 </div>
               </div>
 
@@ -269,13 +264,13 @@ const Checkout = () => {
                 <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Địa chỉ chi tiết *</label>
                 <div className="relative">
                   <MapPin className="absolute left-4 top-5 text-zinc-300 group-focus-within:text-destructive transition-colors" size={16} />
-                  <textarea required name="address" value={formData.address} onChange={handleInputChange} placeholder="Số nhà, tên đường, phường/xã..." className="w-full min-h-[80px] md:min-h-[100px] p-4 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-destructive font-bold text-sm outline-none bg-white" />
+                  <textarea required name="address" value={formData.address} onChange={handleInputChange} placeholder="Số nhà, tên đường, phường/xã..." className="w-full min-h-[80px] md:min-h-[100px] p-4 pl-12 rounded-xl md:rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-destructive font-bold text-base outline-none bg-white" />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Ghi chú cho shipper (Tùy chọn)</label>
-                <textarea name="note" value={formData.note} onChange={handleInputChange} placeholder="Ví dụ: Giao ngoài giờ hành chính, gọi trước khi đến..." className="w-full min-h-[80px] md:min-h-[100px] p-4 rounded-xl md:rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-destructive font-bold text-sm outline-none bg-white" />
+                <textarea name="note" value={formData.note} onChange={handleInputChange} placeholder="Ví dụ: Giao ngoài giờ hành chính, gọi trước khi đến..." className="w-full min-h-[80px] md:min-h-[100px] p-4 rounded-xl md:rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-destructive font-bold text-base outline-none bg-white" />
               </div>
             </div>
 

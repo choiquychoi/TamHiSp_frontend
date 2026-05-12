@@ -293,7 +293,10 @@ const AdminOrders = () => {
                   key={order._id}
                   onClick={() => {
                     setSelectedOrder(order);
-                    setIsDetailOpen(true);
+                    // Chỉ mở Sheet trên mobile/tablet (dưới mức xl: 1280px)
+                    if (window.innerWidth < 1280) {
+                      setIsDetailOpen(true);
+                    }
                   }}
                   className={`bg-white p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border-2 cursor-pointer transition-all ${selectedOrder?._id === order._id ? 'border-red-600 shadow-xl' : 'border-transparent hover:border-gray-100 shadow-sm'}`}
                 >
@@ -391,13 +394,33 @@ const AdminOrders = () => {
 
       {/* CHI TIẾT ĐƠN HÀNG - MOBILE VIEW (SHEET) */}
       <Sheet open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <SheetContent side="bottom" className="h-[92vh] rounded-t-[3rem] p-0 overflow-hidden border-none shadow-2xl">
-          <div className="bg-gray-900 p-8 text-white flex justify-between items-center">
-            <h2 className="text-xl font-black uppercase tracking-tighter italic">Chi tiết <span className="text-red-600">đơn hàng</span></h2>
-            <button onClick={() => setIsDetailOpen(false)} className="p-2 bg-white/10 rounded-full text-white/50"><X size={20} /></button>
-          </div>
-          <div className="p-8 h-full overflow-y-auto custom-scrollbar bg-white">
-            {selectedOrder && <OrderDetailContent order={selectedOrder} />}
+        <SheetContent side="right" className="w-full sm:max-w-xl p-0 overflow-hidden border-none shadow-2xl">
+          <div className="h-full flex flex-col bg-white">
+            <div className="bg-gray-900 p-6 md:p-8 text-white flex justify-between items-center shrink-0">
+              <div>
+                <Badge className="bg-white/10 text-white border-white/20 uppercase font-black text-[8px] tracking-widest px-3 py-1 mb-2">
+                  {selectedOrder?.orderNumber}
+                </Badge>
+                <h2 className="text-xl font-black uppercase tracking-tighter italic leading-none">Chi tiết <span className="text-red-600">đơn hàng</span></h2>
+              </div>
+              <button onClick={() => setIsDetailOpen(false)} className="p-3 bg-white/10 hover:bg-white/20 rounded-2xl text-white transition-all">
+                <X size={24} />
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+              {selectedOrder && <OrderDetailContent order={selectedOrder} />}
+            </div>
+
+            {/* Nút đóng cố định ở dưới trên mobile để dễ thao tác */}
+            <div className="p-6 border-t border-gray-100 bg-gray-50 md:hidden">
+              <button 
+                onClick={() => setIsDetailOpen(false)}
+                className="w-full py-4 bg-gray-950 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-xl active:scale-95 transition-all"
+              >
+                ĐÓNG CHI TIẾT
+              </button>
+            </div>
           </div>
         </SheetContent>
       </Sheet>

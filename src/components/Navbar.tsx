@@ -233,7 +233,7 @@ const Navbar = () => {
                 {/* Header Decoration */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-destructive/10 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none" />
                 
-                <div className="relative h-full flex flex-col p-6 z-10">
+                <div className="relative h-full flex flex-col p-6 z-10 overflow-y-auto no-scrollbar">
                   <div className="flex justify-between items-start mb-8">
                     <SheetHeader className="p-0">
                       <SheetTitle className="text-left flex items-center gap-3">
@@ -259,7 +259,7 @@ const Navbar = () => {
                     <div className="relative group">
                       <Input 
                         placeholder="Tìm sản phẩm..." 
-                        className="h-10 rounded-xl border-zinc-800 bg-zinc-900/50 focus:border-destructive text-white placeholder:text-zinc-500 pl-10 text-xs transition-all"
+                        className="h-10 rounded-xl border-zinc-800 bg-zinc-900/50 focus:border-destructive text-white placeholder:text-zinc-500 pl-10 text-base transition-all"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />

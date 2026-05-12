@@ -168,7 +168,7 @@ const CategoryPage: React.FC = () => {
                   <ArrowUpDown size={14} />
                 </div>
                 <select 
-                  className="flex-1 bg-transparent text-[9px] md:text-[10px] font-black uppercase tracking-widest outline-none pr-4 cursor-pointer"
+                  className="flex-1 bg-transparent text-base font-black uppercase tracking-widest outline-none pr-4 cursor-pointer"
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
                 >
